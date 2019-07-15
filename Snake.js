@@ -1,8 +1,9 @@
 var cvs = document.getElementById("canvas");
 var ctx = cvs.getContext("2d");
+var info = document.getElementById("num");
 
 var bots = [];
-for (var i = 0; i < 30; i++) {
+for (var i = 0; i < 100; i++) {
     bots.push(new Bot(ctx, cvs));
 }
 var num = 0;
@@ -15,12 +16,12 @@ function botCompare(a, b) {
 }
 
 function evolve() {
-    console.log("EVOLVE");
+
     bots.sort(botCompare);
     generation += 1;
 
     var nextGen = [];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 40; i++) {
         var newBot = new Bot(ctx, cvs);
         newBot.wih = bots[i].wih;
         newBot.who = bots[i].who;
@@ -28,16 +29,23 @@ function evolve() {
     }
 
     for (var i = 0; i < 20; i++) {
-        var r1 = Math.floor(Math.random() * 10);
-        var r2 = Math.floor(Math.random() * 10);
+        var newBot = new Bot(ctx, cvs);
+        newBot.wih = crossover(bots[i].wih, bots[i + 1].wih)[0];
+        newBot.who = crossover(bots[i].who, bots[i + 1].who)[0];
+        nextGen.push(newBot);
+    }
+
+    for (var i = 0; i < 40; i++) {
+        var r1 = Math.floor(Math.random() * 40);
+        var r2 = Math.floor(Math.random() * 40);
         var newBot = new Bot(ctx, cvs);
         newBot.wih = crossover(bots[r1].wih, bots[r2].wih)[0];
         newBot.who = crossover(bots[r1].who, bots[r2].who)[0];
         nextGen.push(newBot);
     }
 
-    for (var i = 4; i < 30; i++) {
-        if (Math.random() > 0.7) {
+    for (var i = 20; i < 100; i++) {
+        if (Math.random() > 0.6) {
             nextGen[i].wih = mutate(nextGen[i].wih);
             nextGen[i].who = mutate(nextGen[i].who);
         }
@@ -68,6 +76,8 @@ function runner() {
             evolve();
         }
     }
+
+    info.innerHTML = generation;
 
     requestAnimationFrame(runner);
 }

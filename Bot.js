@@ -3,32 +3,32 @@ class Bot {
         this.side = 10;
         this.ctx = ctx;
         this.cvs = cvs;
-        this.velX = 1;
+        this.velX = 0;
         this.velY = 0;
         this.body = [[this.cvs.width / 2, this.cvs.height / 2]];
         this.live = true;
         this.fitness = 0;
         this.length = 2;
-        this.timeLeft = 100;
+        this.timeLeft = 200;
 
-        // From 6 to 8
+        // From 6 to 10
         this.wih = [];
 
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < 10; i++) {
             var a = [];
             for (var j = 0; j < 6; j++) {
-                a.push(randomNumber(1000, -1000));
+                a.push(randomNumber(10000, -10000));
             }
             this.wih.push(a);
         }
 
-        // From 8 to 4
+        // From 10 to 4
         this.who = [];
 
         for (var i = 0; i < 4; i++) {
             var a = [];
-            for (var j = 0; j < 8; j++) {
-                a.push(randomNumber(1000, -1000));
+            for (var j = 0; j < 10; j++) {
+                a.push(randomNumber(10000, -10000));
             }
             this.who.push(a);
         }

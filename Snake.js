@@ -40,13 +40,17 @@ function evolve() {
     }
 
     for (var i = 0; i < 10; i++) {
-        for (var j = 0; j < 10; j++) {
-            var r1 = Math.floor(Math.random() * 50);
+        for (var j = 0; j < 9; j++) {
+            var r1 = Math.floor(Math.random() * 100);
             var newBot = new Bot(ctx, cvs);
             newBot.wih = crossover(bots[i].wih, bots[r1].wih)[0];
             newBot.who = crossover(bots[i].who, bots[r1].who)[0];
             nextGen.push(newBot);
         }
+    }
+
+    for (var i = 0; i < 10; i++) {
+        nextGen.push(new Bot(ctx, cvs));
     }
 
     if (bots[0].fitness > best.fitness) {

@@ -15,10 +15,29 @@ function botCompare(a, b) {
 }
 
 function evolve() {
+    console.log("EVOLVE");
     bots.sort(botCompare);
     generation += 1;
 
     var nextGen = [];
+    for (var i = 0; i < 7; i++) {
+        var newBot = new Bot(ctx, cvs);
+        newBot.wih = bots[i].wih;
+        newBot.who = bots[i].who;
+        nextGen.push(newBot);
+    }
+
+    for (var i = 0; i < 13; i++) {
+        var r1 = Math.floor(Math.random() * 7);
+        var r2 = Math.floor(Math.random() * 7);
+        var newBot = new Bot(ctx, cvs);
+        newBot.wih = crossover(bots[r1].wih, bots[r2].wih)[0];
+        newBot.who = crossover(bots[r1].who, bots[r2].who)[0];
+        nextGen.push(newBot);
+    }
+
+    num = 0;
+    bots = nextGen;
 }
 
 function runner() {
@@ -39,7 +58,6 @@ function runner() {
         num += 1;
         if (num >= bots.length) {
             evolve();
-            return;
         }
     }
 

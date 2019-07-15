@@ -39,8 +39,8 @@ function evolve() {
         nextGen.push(newBot);
     }
 
-    for (var i = 0; i < 10; i++) {
-        for (var j = 0; j < 9; j++) {
+    for (var i = 0; i < 30; i++) {
+        for (var j = 0; j < 3; j++) {
             var r1 = Math.floor(Math.random() * 100);
             var newBot = new Bot(ctx, cvs);
             newBot.wih = crossover(bots[i].wih, bots[r1].wih)[0];

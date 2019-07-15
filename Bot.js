@@ -56,7 +56,6 @@ class Bot {
             if (this.body[i][0] == x && this.body[i][1] < y) {
                 var oldUp = up;
                 up = y - (this.body[i][1] + this.side);
-                this.fitness += 10;
                 if (oldUp < up) {
                     up = oldUp;
                 }
@@ -68,7 +67,6 @@ class Bot {
             if (this.body[i][0] == x && this.body[i][1] > y) {
                 var oldUp = up;
                 up = this.body[i][1] + this.side - y;
-                this.fitness += 10;
                 if (oldUp < up) {
                     up = oldUp;
                 }
@@ -77,10 +75,9 @@ class Bot {
 
         var left = x;
         for (var i = 0; i < this.body.length - 1; i++) {
-            if (this.body[i][1] == y && this.body[i][0] < y) {
+            if (this.body[i][1] == y && this.body[i][0] < x) {
                 var oldLeft = left;
                 left = x - (this.body[i][0] + this.side);
-                this.fitness += 10;
                 if (oldLeft < left) {
                     left = oldLeft;
                 }
@@ -92,7 +89,6 @@ class Bot {
             if (this.body[i][1] == y && this.body[i][0] > x) {
                 var oldLeft = left;
                 left = this.body[i][0] + this.side - x;
-                this.fitness += 10;
                 if (oldLeft < left) {
                     left = oldLeft;
                 }
@@ -117,6 +113,8 @@ class Bot {
         var hiddenResult = applySigmoid(hiddenOutput);
         var outputs = matrixMultiply(this.who, hiddenResult);
         var result = applySigmoid(outputs);
+
+        console.table(inputs)
 
         if (result[0][0] > 0.5) {
             if (this.velX == -1) {

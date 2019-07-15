@@ -4,7 +4,7 @@ var info = document.getElementById("num");
 var infoNum = document.getElementById("bot");
 
 var bots = [];
-for (var i = 0; i < 150; i++) {
+for (var i = 0; i < 200; i++) {
     bots.push(new Bot(ctx, cvs));
 }
 
@@ -23,7 +23,7 @@ function evolve() {
     generation += 1;
 
     var nextGen = [];
-    for (var i = 0; i < 70; i++) {
+    for (var i = 0; i < 100; i++) {
         var newBot = new Bot(ctx, cvs);
         newBot.wih = bots[i].wih;
         newBot.who = bots[i].who;
@@ -31,10 +31,11 @@ function evolve() {
     }
 
     for (var i = 0; i < 10; i++) {
-        for (var j = 0; j < 8; j++) {
+        for (var j = 0; j < 10; j++) {
+            var r1 = Math.floor(Math.random() * 50);
             var newBot = new Bot(ctx, cvs);
-            newBot.wih = crossover(bots[i].wih, bots[j].wih)[0];
-            newBot.who = crossover(bots[i].who, bots[j].who)[0];
+            newBot.wih = crossover(bots[i].wih, bots[r1].wih)[0];
+            newBot.who = crossover(bots[i].who, bots[r1].who)[0];
             nextGen.push(newBot);
         }
     }
@@ -48,7 +49,7 @@ function evolve() {
     //     nextGen.push(newBot);
     // }
 
-    for (var i = 20; i < 100; i++) {
+    for (var i = 20; i < 200; i++) {
         if (Math.random() > 0.6) {
             nextGen[i].wih = mutate(nextGen[i].wih);
             nextGen[i].who = mutate(nextGen[i].who);

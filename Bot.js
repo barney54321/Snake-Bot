@@ -17,7 +17,7 @@ class Bot {
         for (var i = 0; i < 12; i++) {
             var a = [];
             for (var j = 0; j < 6; j++) {
-                a.push(randomNumber(100000, -100000));
+                a.push(randomNumber(100, -100));
             }
             this.wih.push(a);
         }
@@ -28,7 +28,7 @@ class Bot {
         for (var i = 0; i < 4; i++) {
             var a = [];
             for (var j = 0; j < 12; j++) {
-                a.push(randomNumber(100000, -100000));
+                a.push(randomNumber(100, -100));
             }
             this.who.push(a);
         }

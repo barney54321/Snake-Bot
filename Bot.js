@@ -14,10 +14,10 @@ class Bot {
         // From 6 to 12
         this.wih = [];
 
-        for (var i = 0; i < 16; i++) {
+        for (var i = 0; i < 12; i++) {
             var a = [];
             for (var j = 0; j < 6; j++) {
-                a.push(randomNumber(10000, -10000));
+                a.push(randomNumber(100000, -100000));
             }
             this.wih.push(a);
         }
@@ -27,8 +27,8 @@ class Bot {
 
         for (var i = 0; i < 4; i++) {
             var a = [];
-            for (var j = 0; j < 16; j++) {
-                a.push(randomNumber(10000, -10000));
+            for (var j = 0; j < 12; j++) {
+                a.push(randomNumber(100000, -100000));
             }
             this.who.push(a);
         }
@@ -56,7 +56,7 @@ class Bot {
             if (this.body[i][0] == x && this.body[i][1] < y) {
                 var oldUp = up;
                 up = y - (this.body[i][1] + this.side);
-                this.fitness += 3;
+                this.fitness += 10;
                 if (oldUp < up) {
                     up = oldUp;
                 }
@@ -68,7 +68,7 @@ class Bot {
             if (this.body[i][0] == x && this.body[i][1] > y) {
                 var oldUp = up;
                 up = this.body[i][1] + this.side - y;
-                this.fitness += 3;
+                this.fitness += 10;
                 if (oldUp < up) {
                     up = oldUp;
                 }
@@ -80,7 +80,7 @@ class Bot {
             if (this.body[i][1] == y && this.body[i][0] < y) {
                 var oldLeft = left;
                 left = x - (this.body[i][0] + this.side);
-                this.fitness += 3;
+                this.fitness += 10;
                 if (oldLeft < left) {
                     left = oldLeft;
                 }
@@ -92,7 +92,7 @@ class Bot {
             if (this.body[i][1] == y && this.body[i][0] > x) {
                 var oldLeft = left;
                 left = this.body[i][0] + this.side - x;
-                this.fitness += 3;
+                this.fitness += 10;
                 if (oldLeft < left) {
                     left = oldLeft;
                 }
@@ -100,7 +100,17 @@ class Bot {
         }
 
         var fruitX = fruit.x - this.body[this.body.length - 1][0];
+        if (fruitX > 0) {
+            fruitX = 1;
+        } else if (fruitX < 0) {
+            fruitX = -1;
+        }
         var fruitY = fruit.y - this.body[this.body.length - 1][1];
+        if (fruitY > 0) {
+            fruitY = 1;
+        } else if (fruitY < 0) {
+            fruitY = -1;
+        }
 
         var inputs = transpose([up, down, left, right, fruitX, fruitY]);
         var hiddenOutput = matrixMultiply(this.wih, inputs);
@@ -111,27 +121,35 @@ class Bot {
         if (result[0][0] > 0.5) {
             if (this.velX == -1) {
                 this.live = false;
+            } else {
+                this.velX = 1;
+                this.velY = 0;
+                this.fitness += 10;
             }
-            this.velX = 1;
-            this.velY = 0;
         } else if (result[1][0] > 0.5) {
             if (this.velX == 1) {
                 this.live = false;
+            } else {
+                this.velX = -1;
+                this.velY = 0;
+                this.fitness += 10;
             }
-            this.velX = -1;
-            this.velY = 0;
         } else if (result[2][0] > 0.5) {
             if (this.velY == -1) {
                 this.live = false;
+            } else {
+                this.velX = 0;
+                this.velY = 1;
+                this.fitness += 10;
             }
-            this.velX = 0;
-            this.velY = 1;
         } else if (result[3][0] > 0.5) {
             if (this.velY == 1) {
                 this.live = false;
-            }
-            this.velX = 0;
-            this.velY = -1;
+            } else {
+                this.velX = 0;
+                this.velY = -1;
+                this.fitness += 10;
+            }            
         }
 
     }

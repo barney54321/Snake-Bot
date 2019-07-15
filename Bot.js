@@ -5,10 +5,11 @@ class Bot {
         this.cvs = cvs;
         this.velX = 1;
         this.velY = 0;
-        this.body = [[0,0]];
+        this.body = [[this.cvs.width / 2, this.cvs.height / 2]];
         this.live = true;
         this.fitness = 0;
-        this.length = 3;
+        this.length = 2;
+        this.timeLeft = 100;
 
         // From 6 to 8
         this.wih = [];
@@ -104,15 +105,27 @@ class Bot {
         var result = applySigmoid(outputs);
 
         if (result[0][0] > 0.5) {
+            if (this.velX == -1) {
+                this.live = false;
+            }
             this.velX = 1;
             this.velY = 0;
         } else if (result[1][0] > 0.5) {
+            if (this.velX == 1) {
+                this.live = false;
+            }
             this.velX = -1;
             this.velY = 0;
         } else if (result[2][0] > 0.5) {
+            if (this.velY == -1) {
+                this.live = false;
+            }
             this.velX = 0;
             this.velY = 1;
         } else if (result[3][0] > 0.5) {
+            if (this.velY == 1) {
+                this.live = false;
+            }
             this.velX = 0;
             this.velY = -1;
         }
@@ -154,6 +167,11 @@ class Bot {
         }
 
         if (newBox[1] < 0 || newBox[1] >= this.cvs.height) {
+            this.live = false;
+        }
+
+        this.timeLeft -= 1;
+        if (this.timeLeft < 0) {
             this.live = false;
         }
 

@@ -8,6 +8,29 @@ class Bot {
         this.body = [[0,0]];
         this.live = true;
         this.fitness = 0;
+
+        // From 6 to 8
+        this.wih = [];
+
+        for (var i = 0; i < 8; i++) {
+            var a = [];
+            for (var j = 0; j < 6; j++) {
+                a.push(randomNumber(1000, -1000));
+            }
+            this.wih.push(a);
+        }
+
+        // From 8 to 4
+        this.who = [];
+
+        for (var i = 0; i < 4; i++) {
+            var a = [];
+            for (var j = 0; j < 8; j++) {
+                a.push(randomNumber(1000, -1000));
+            }
+            this.who.push(a);
+        }
+
     }
 
     draw() {
@@ -20,13 +43,41 @@ class Bot {
 
     }
 
-    calculate() {
+    calculate(fruit) {
+
+        // INPUTS: up, down, left, right, fruit, fruit
+        var up = this.body[this.body.length - 1][1];
+        var down = this.cvs.height - this.body[this.body.length - 1][1] - this.side;
+        var left = this.body[this.body.length - 1][0];
+        var right = this.cvs.width - this.body[this.body.length - 1][0] - this.side;
+        var fruitX = fruit.x - this.body[this.body.length - 1][0];
+        var fruitY = fruit.y - this.body[this.body.length - 1][1];
+
+        var inputs = transpose([up, down, left, right, fruitX, fruitY]);
+        var hiddenOutput = matrixMultiply(this.wih, inputs);
+        var hiddenResult = applySigmoid(hiddenOutput);
+        var outputs = matrixMultiply(this.who, hiddenResult);
+        var result = applySigmoid(outputs);
+
+        if (result[0][0] > 0.5) {
+            this.velX = 1;
+            this.velY = 0;
+        } else if (result[1][0] > 0.5) {
+            this.velX = -1;
+            this.velY = 0;
+        } else if (result[2][0] > 0.5) {
+            this.velX = 0;
+            this.velY = 1;
+        } else if (result[3][0] > 0.5) {
+            this.velX = 0;
+            this.velY = -1;
+        }
 
     }
 
-    click() {
+    click(fruit) {
 
-        this.calculate();
+        this.calculate(fruit);
         let currX = this.body[this.body.length - 1][0];
         let currY = this.body[this.body.length - 1][1];
         this.body.shift();
@@ -55,4 +106,8 @@ class Bot {
         this.body.push(newBox);
         this.fitness += 1;
     }
+}
+
+function randomNumber(max, min) {
+    return Math.floor(Math.random() * (max - min) + min);
 }

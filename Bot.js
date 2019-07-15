@@ -8,6 +8,7 @@ class Bot {
         this.body = [[0,0]];
         this.live = true;
         this.fitness = 0;
+        this.length = 3;
 
         // From 6 to 8
         this.wih = [];
@@ -45,11 +46,54 @@ class Bot {
 
     calculate(fruit) {
 
+        var x = this.body[this.body.length - 1][0];
+        var y = this.body[this.body.length - 1][1];
+
         // INPUTS: up, down, left, right, fruit, fruit
-        var up = this.body[this.body.length - 1][1];
-        var down = this.cvs.height - this.body[this.body.length - 1][1] - this.side;
-        var left = this.body[this.body.length - 1][0];
-        var right = this.cvs.width - this.body[this.body.length - 1][0] - this.side;
+        var up = y;
+        for (var i = 0; i < this.body.length - 1; i++) {
+            if (this.body[i][0] == x && this.body[i][1] < y) {
+                var oldUp = up;
+                up = y - (this.body[i][1] + this.side);
+                if (oldUp < up) {
+                    up = oldUp;
+                }
+            }
+        }
+
+        var down = this.cvs.height - y - this.side;
+        for (var i = 0; i < this.body.length - 1; i++) {
+            if (this.body[i][0] == x && this.body[i][1] > y) {
+                var oldUp = up;
+                up = this.body[i][1] + this.side - y;
+                if (oldUp < up) {
+                    up = oldUp;
+                }
+            }
+        }
+
+        var left = x;
+        for (var i = 0; i < this.body.length - 1; i++) {
+            if (this.body[i][1] == y && this.body[i][0] < y) {
+                var oldLeft = left;
+                left = x - (this.body[i][0] + this.side);
+                if (oldLeft < left) {
+                    left = oldLeft;
+                }
+            }
+        }
+
+        var right = this.cvs.width - x - this.side;
+        for (var i = 0; i < this.body.length - 1; i++) {
+            if (this.body[i][1] == y && this.body[i][0] > x) {
+                var oldLeft = left;
+                left = this.body[i][0] + this.side - x;
+                if (oldLeft < left) {
+                    left = oldLeft;
+                }
+            }
+        }
+
         var fruitX = fruit.x - this.body[this.body.length - 1][0];
         var fruitY = fruit.y - this.body[this.body.length - 1][1];
 
@@ -80,7 +124,9 @@ class Bot {
         this.calculate(fruit);
         let currX = this.body[this.body.length - 1][0];
         let currY = this.body[this.body.length - 1][1];
-        this.body.shift();
+        if (this.length == this.body.length) {
+            this.body.shift();
+        }
         var newBox = [];
         if (this.velX == 1) {
             newBox.push(currX + this.side);
@@ -101,6 +147,14 @@ class Bot {
                 this.live = false;
                 break;
             }
+        }
+
+        if (newBox[0] < 0 || newBox[0] >= this.cvs.width) {
+            this.live = false;
+        }
+
+        if (newBox[1] < 0 || newBox[1] >= this.cvs.height) {
+            this.live = false;
         }
 
         this.body.push(newBox);

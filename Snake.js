@@ -8,6 +8,8 @@ for (var i = 0; i < 200; i++) {
     bots.push(new Bot(ctx, cvs));
 }
 
+var best = new Bot(ctx, cvs);
+
 var num = 0;
 var generation = 0;
 
@@ -23,7 +25,14 @@ function evolve() {
     generation += 1;
 
     var nextGen = [];
-    for (var i = 0; i < 100; i++) {
+
+    // Add in best
+    var bestBot = new Bot(ctx, cvs);
+    bestBot.wih = best.wih;
+    bestBot.who = best.who;
+    nextGen.push(bestBot);
+
+    for (var i = 0; i < 99; i++) {
         var newBot = new Bot(ctx, cvs);
         newBot.wih = bots[i].wih;
         newBot.who = bots[i].who;
@@ -40,6 +49,10 @@ function evolve() {
         }
     }
 
+    if (bots[0].fitness > best.fitness) {
+        best = bots[0];
+    }
+
     // for (var i = 0; i < 50; i++) {
     //     var r1 = Math.floor(Math.random() * 50);
     //     var r2 = Math.floor(Math.random() * 50);
@@ -49,7 +62,7 @@ function evolve() {
     //     nextGen.push(newBot);
     // }
 
-    for (var i = 20; i < 200; i++) {
+    for (var i = 50; i < 200; i++) {
         if (Math.random() > 0.6) {
             nextGen[i].wih = mutate(nextGen[i].wih);
             nextGen[i].who = mutate(nextGen[i].who);

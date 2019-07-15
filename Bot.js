@@ -7,6 +7,7 @@ class Bot {
         this.velY = 0;
         this.body = [[0,0]];
         this.live = true;
+        this.fitness = 0;
     }
 
     draw() {
@@ -19,7 +20,13 @@ class Bot {
 
     }
 
+    calculate() {
+
+    }
+
     click() {
+
+        this.calculate();
         let currX = this.body[this.body.length - 1][0];
         let currY = this.body[this.body.length - 1][1];
         this.body.shift();
@@ -46,5 +53,6 @@ class Bot {
         }
 
         this.body.push(newBox);
+        this.fitness += 1;
     }
 }

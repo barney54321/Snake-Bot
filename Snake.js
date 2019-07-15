@@ -71,6 +71,7 @@ function runner() {
     }
 
     if (bots[num].live == false) {
+        fruit = new Fruit(ctx, cvs);
         num += 1;
         if (num >= bots.length) {
             evolve();

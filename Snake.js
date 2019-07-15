@@ -63,7 +63,7 @@ function evolve() {
     //     nextGen.push(newBot);
     // }
 
-    for (var i = 50; i < 200; i++) {
+    for (var i = 100; i < 500; i++) {
         if (Math.random() > 0.6) {
             nextGen[i].wih = mutate(nextGen[i].wih);
             nextGen[i].who = mutate(nextGen[i].who);

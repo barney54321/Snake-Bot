@@ -4,11 +4,9 @@ var info = document.getElementById("num");
 var infoNum = document.getElementById("bot");
 
 var bots = [];
-for (var i = 0; i < 300; i++) {
+for (var i = 0; i < 500; i++) {
     bots.push(new Bot(ctx, cvs));
 }
-
-var best = new Bot(ctx, cvs);
 
 var num = 0;
 var generation = 0;
@@ -26,22 +24,25 @@ function evolve() {
 
     var nextGen = [];
 
-    // Add in best
-    var bestBot = new Bot(ctx, cvs);
-    bestBot.wih = best.wih;
-    bestBot.who = best.who;
-    nextGen.push(bestBot);
-
-    for (var i = 0; i < 149; i++) {
+    for (var i = 0; i < 250; i++) {
         var newBot = new Bot(ctx, cvs);
         newBot.wih = bots[i].wih;
         newBot.who = bots[i].who;
         nextGen.push(newBot);
     }
 
+    for (var i = 0; i < 20; i++) {
+        for (var j = 0; j < 10; j++) {
+            var newBot = new Bot(ctx, cvs);
+            newBot.wih = crossover(bots[i].wih, bots[j].wih)[0];
+            newBot.who = crossover(bots[i].who, bots[j].who)[0];
+            nextGen.push(newBot);
+        }
+    }
+
     for (var i = 0; i < 10; i++) {
-        for (var j = 0; j < 14; j++) {
-            var r1 = Math.floor(Math.random() * 100);
+        for (var j = 0; j < 5; j++) {
+            var r1 = Math.floor(Math.random() * 250);
             var newBot = new Bot(ctx, cvs);
             newBot.wih = crossover(bots[i].wih, bots[r1].wih)[0];
             newBot.who = crossover(bots[i].who, bots[r1].who)[0];
@@ -51,10 +52,6 @@ function evolve() {
 
     for (var i = 0; i < 10; i++) {
         nextGen.push(new Bot(ctx, cvs));
-    }
-
-    if (bots[0].fitness > best.fitness) {
-        best = bots[0];
     }
 
     // for (var i = 0; i < 50; i++) {
@@ -86,7 +83,7 @@ function runner() {
 
     bots[num].click(fruit);
     if (bots[num].body[bots[num].body.length - 1][0] == fruit.x && bots[num].body[bots[num].body.length - 1][1] == fruit.y) {
-        bots[num].fitness += 1000;
+        bots[num].fitness += 200;
         fruit = new Fruit(ctx, cvs);
         bots[num].length += 1;
         bots[num].timeLeft += 1000;

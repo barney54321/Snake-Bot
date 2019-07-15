@@ -4,7 +4,7 @@ var info = document.getElementById("num");
 var infoNum = document.getElementById("bot");
 
 var bots = [];
-for (var i = 0; i < 200; i++) {
+for (var i = 0; i < 300; i++) {
     bots.push(new Bot(ctx, cvs));
 }
 
@@ -32,15 +32,15 @@ function evolve() {
     bestBot.who = best.who;
     nextGen.push(bestBot);
 
-    for (var i = 0; i < 99; i++) {
+    for (var i = 0; i < 149; i++) {
         var newBot = new Bot(ctx, cvs);
         newBot.wih = bots[i].wih;
         newBot.who = bots[i].who;
         nextGen.push(newBot);
     }
 
-    for (var i = 0; i < 30; i++) {
-        for (var j = 0; j < 3; j++) {
+    for (var i = 0; i < 10; i++) {
+        for (var j = 0; j < 14; j++) {
             var r1 = Math.floor(Math.random() * 100);
             var newBot = new Bot(ctx, cvs);
             newBot.wih = crossover(bots[i].wih, bots[r1].wih)[0];

@@ -5,7 +5,7 @@ class Bot {
         this.cvs = cvs;
         this.velX = 0;
         this.velY = 0;
-        this.body = [[this.cvs.width / 2, this.cvs.height / 2]];
+        this.body = [[(Math.floor((Math.random() * cvs.width) / 10)) * 10, (Math.floor((Math.random() * cvs.height) / 10)) * 10]];
         this.live = true;
         this.fitness = 0;
         this.length = 2;

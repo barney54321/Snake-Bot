@@ -6,6 +6,7 @@ var bots = [];
 for (var i = 0; i < 150; i++) {
     bots.push(new Bot(ctx, cvs));
 }
+
 var num = 0;
 var generation = 0;
 
@@ -28,21 +29,23 @@ function evolve() {
         nextGen.push(newBot);
     }
 
-    for (var i = 0; i < 30; i++) {
-        var newBot = new Bot(ctx, cvs);
-        newBot.wih = crossover(bots[i].wih, bots[i + 1].wih)[0];
-        newBot.who = crossover(bots[i].who, bots[i + 1].who)[0];
-        nextGen.push(newBot);
+    for (var i = 0; i < 10; i++) {
+        for (var j = 0; j < 8; j++) {
+            var newBot = new Bot(ctx, cvs);
+            newBot.wih = crossover(bots[i].wih, bots[j].wih)[0];
+            newBot.who = crossover(bots[i].who, bots[j].who)[0];
+            nextGen.push(newBot);
+        }
     }
 
-    for (var i = 0; i < 50; i++) {
-        var r1 = Math.floor(Math.random() * 50);
-        var r2 = Math.floor(Math.random() * 50);
-        var newBot = new Bot(ctx, cvs);
-        newBot.wih = crossover(bots[r1].wih, bots[r2].wih)[0];
-        newBot.who = crossover(bots[r1].who, bots[r2].who)[0];
-        nextGen.push(newBot);
-    }
+    // for (var i = 0; i < 50; i++) {
+    //     var r1 = Math.floor(Math.random() * 50);
+    //     var r2 = Math.floor(Math.random() * 50);
+    //     var newBot = new Bot(ctx, cvs);
+    //     newBot.wih = crossover(bots[r1].wih, bots[r2].wih)[0];
+    //     newBot.who = crossover(bots[r1].who, bots[r2].who)[0];
+    //     nextGen.push(newBot);
+    // }
 
     for (var i = 20; i < 100; i++) {
         if (Math.random() > 0.6) {
@@ -64,7 +67,7 @@ function runner() {
 
     bots[num].click(fruit);
     if (bots[num].body[bots[num].body.length - 1][0] == fruit.x && bots[num].body[bots[num].body.length - 1][1] == fruit.y) {
-        bots[num].fitness += 100;
+        bots[num].fitness += 1000;
         fruit = new Fruit(ctx, cvs);
         bots[num].length += 1;
         bots[num].timeLeft += 1000;

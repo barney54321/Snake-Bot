@@ -3,7 +3,7 @@ var ctx = cvs.getContext("2d");
 var info = document.getElementById("num");
 
 var bots = [];
-for (var i = 0; i < 100; i++) {
+for (var i = 0; i < 150; i++) {
     bots.push(new Bot(ctx, cvs));
 }
 var num = 0;
@@ -21,23 +21,23 @@ function evolve() {
     generation += 1;
 
     var nextGen = [];
-    for (var i = 0; i < 40; i++) {
+    for (var i = 0; i < 70; i++) {
         var newBot = new Bot(ctx, cvs);
         newBot.wih = bots[i].wih;
         newBot.who = bots[i].who;
         nextGen.push(newBot);
     }
 
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 30; i++) {
         var newBot = new Bot(ctx, cvs);
         newBot.wih = crossover(bots[i].wih, bots[i + 1].wih)[0];
         newBot.who = crossover(bots[i].who, bots[i + 1].who)[0];
         nextGen.push(newBot);
     }
 
-    for (var i = 0; i < 40; i++) {
-        var r1 = Math.floor(Math.random() * 40);
-        var r2 = Math.floor(Math.random() * 40);
+    for (var i = 0; i < 50; i++) {
+        var r1 = Math.floor(Math.random() * 50);
+        var r2 = Math.floor(Math.random() * 50);
         var newBot = new Bot(ctx, cvs);
         newBot.wih = crossover(bots[r1].wih, bots[r2].wih)[0];
         newBot.who = crossover(bots[r1].who, bots[r2].who)[0];

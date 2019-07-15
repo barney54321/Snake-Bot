@@ -1,6 +1,7 @@
 var cvs = document.getElementById("canvas");
 var ctx = cvs.getContext("2d");
 var info = document.getElementById("num");
+var infoNum = document.getElementById("bot");
 
 var bots = [];
 for (var i = 0; i < 150; i++) {
@@ -78,10 +79,12 @@ function runner() {
         num += 1;
         if (num >= bots.length) {
             evolve();
+            num = 0;
         }
     }
 
     info.innerHTML = generation;
+    infoNum.innerHTML = num;
 
     requestAnimationFrame(runner);
 }

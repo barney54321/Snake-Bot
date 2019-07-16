@@ -18,25 +18,33 @@ class Bot {
         this.fruitX = Math.floor(Math.random() * 20);
         this.fruitY = Math.floor(Math.random() * 20);
         this.game[this.fruitY][this.fruitX] = -1;
+        this.body = [[this.x, this.y]];
+        this.length = 1;
 
-        // From 6 to 12
+        this.velX = 0;
+        this.velY = 1;
+
+        this.fitness = 0;
+        this.live = true;
+
+        // From 400 to 1000
         this.wih = [];
 
-        for (var i = 0; i < 12; i++) {
+        for (var i = 0; i < 1000; i++) {
             var a = [];
-            for (var j = 0; j < 6; j++) {
-                a.push(randomNumber(100, -100));
+            for (var j = 0; j < 400; j++) {
+                a.push(randomNumber(10000, -10000));
             }
             this.wih.push(a);
         }
 
-        // From 10 to 4
+        // From 1000 to 4
         this.who = [];
 
         for (var i = 0; i < 4; i++) {
             var a = [];
-            for (var j = 0; j < 12; j++) {
-                a.push(randomNumber(100, -100));
+            for (var j = 0; j < 1000; j++) {
+                a.push(randomNumber(10000, -10000));
             }
             this.who.push(a);
         }
@@ -55,16 +63,87 @@ class Bot {
                 } else {
                     ctx.fillStyle = "#ff0000";
                 }
-                ctx.fillRect(i * 10, j * 10, 10, 10);
+                ctx.fillRect(j * 10, i * 10, 10, 10);
             }
         }
     }
 
-    calculate(fruit) {
+    calculate() {
 
+        // Input: this.game (20*20 = 400)
+        // Output: the four directions
+        var inputs = [];
+
+        for (var i = 0; i < 20; i++) {
+            for (var j = 0; j < 20; j++) {
+                inputs.push([this.game[i][j]]);
+            }
+        }
+
+        var hiddenOutput = matrixMultiply(this.wih, inputs);
+        var hiddenResult = applySigmoid(hiddenOutput);
+        var outputs = matrixMultiply(this.who, hiddenResult);
+        var result = applySigmoid(outputs);
+
+        if (result[0][0] > 0.5) {
+            this.velY = -1;
+            this.velX = 0;
+        } else if (result[1][0] > 0.5) {
+            this.velY = 1;
+            this.velX = 0;
+        } else if (result[2][0] > 0.5) {
+            this.velY = 0;
+            this.velX = -1;
+        } else if (result[3][0] > 0.5) {
+            this.velY = 0;
+            this.velX = 1;
+        } 
     }
 
-    click(fruit) {
+    click() {
+
+        // Set head as body piece
+        this.game[this.y][this.x] = 1;
+
+        // Remove end piece
+        if (this.length == this.body.length) {
+            var [oldX, oldY] = this.body.shift();
+            this.game[oldY][oldX] = 0;
+        }
+
+        // Change velocity
+        this.calculate();
+
+        // Set new coordinate
+        var newX = this.x + this.velX;
+        var newY = this.y + this.velY;
+
+        // Check for death
+        if (newX < 0 || newX >= 20) {
+            this.live = false;
+            return;
+        } else if (newY < 0 || newY >= 20) {
+            this.live = false;
+            return;
+        } else if (this.game[newY][newX] > 0) {
+            this.live = false;
+            return;
+        }
+
+        // Check for fruit 
+        if (this.game[newY][newX] == -1) {
+            this.fitness += 20;
+            this.fruitX = Math.floor(Math.random() * 20);
+            this.fruitY = Math.floor(Math.random() * 20);
+        }
+
+        // Set new gird space as head
+        this.game[newY][newX] = 2;
+        this.body.push([newX, newY]);
+        this.x = newX;
+        this.y = newY;
+
+        this.fitness += 1;
 
     }
 }

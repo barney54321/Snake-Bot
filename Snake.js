@@ -4,7 +4,7 @@ var info = document.getElementById("num");
 var infoNum = document.getElementById("bot");
 
 var bots = [];
-for (var i = 0; i < 500; i++) {
+for (var i = 0; i < 100; i++) {
     bots.push(new Bot(ctx, cvs));
 }
 
@@ -24,47 +24,35 @@ function evolve() {
 
     var nextGen = [];
 
-    for (var i = 0; i < 250; i++) {
+    for (var i = 0; i < 25; i++) {
         var newBot = new Bot(ctx, cvs);
         newBot.wih = bots[i].wih;
         newBot.who = bots[i].who;
         nextGen.push(newBot);
     }
 
-    for (var i = 0; i < 20; i++) {
-        for (var j = 0; j < 10; j++) {
+    for (var i = 0; i < 5; i++) {
+        for (var j = i + 1; j < i + 6; j++) {
             var newBot = new Bot(ctx, cvs);
-            newBot.wih = crossover(bots[i].wih, bots[j].wih)[0];
-            newBot.who = crossover(bots[i].who, bots[j].who)[0];
+            var newBot2 = new Bot(ctx, cvs);
+            [newBot.wih, newBot2.wih] = crossover(bots[i].wih, bots[j].wih);
+            [newBot.who, newBot2.who] = crossover(bots[i].who, bots[j].who);
             nextGen.push(newBot);
+            nextGen.push(newBot2);
         }
     }
 
-    for (var i = 0; i < 10; i++) {
-        for (var j = 0; j < 5; j++) {
-            var r1 = Math.floor(Math.random() * 250);
-            var newBot = new Bot(ctx, cvs);
-            newBot.wih = crossover(bots[i].wih, bots[r1].wih)[0];
-            newBot.who = crossover(bots[i].who, bots[r1].who)[0];
-            nextGen.push(newBot);
-        }
+    for (var i = 0; i < 25; i++) {
+        var r1 = Math.floor(Math.random() * 25);
+        var r2 = Math.floor(Math.random() * 25);
+        var newBot = new Bot(ctx, cvs);
+        newBot.wih = crossover(bots[r1].wih, bots[r2].wih)[0];
+        newBot.who = crossover(bots[r1].who, bots[r2].who)[0];
+        nextGen.push(newBot);
     }
 
-    for (var i = 0; i < 10; i++) {
-        nextGen.push(new Bot(ctx, cvs));
-    }
-
-    // for (var i = 0; i < 50; i++) {
-    //     var r1 = Math.floor(Math.random() * 50);
-    //     var r2 = Math.floor(Math.random() * 50);
-    //     var newBot = new Bot(ctx, cvs);
-    //     newBot.wih = crossover(bots[r1].wih, bots[r2].wih)[0];
-    //     newBot.who = crossover(bots[r1].who, bots[r2].who)[0];
-    //     nextGen.push(newBot);
-    // }
-
-    for (var i = 100; i < 500; i++) {
-        if (Math.random() > 0.6) {
+    for (var i = 0; i < 100; i++) {
+        if (Math.random() > 0.7) {
             nextGen[i].wih = mutate(nextGen[i].wih);
             nextGen[i].who = mutate(nextGen[i].who);
         }
@@ -92,6 +80,7 @@ function runner() {
     if (bots[num].live == false) {
         fruit = new Fruit(ctx, cvs);
         num += 1;
+        return;
         if (num >= bots.length) {
             evolve();
             num = 0;

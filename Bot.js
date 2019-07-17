@@ -5,16 +5,17 @@ class Bot {
         this.cvs = cvs;
         this.velX = 0;
         this.velY = 0;
-        this.body = [[(Math.floor((Math.random() * cvs.width) / 10)) * 10, (Math.floor((Math.random() * cvs.height) / 10)) * 10]];
+        // this.body = [[(Math.floor((Math.random() * cvs.width) / 10)) * 10, (Math.floor((Math.random() * cvs.height) / 10)) * 10]];
+        this.body = [[(Math.floor(cvs.width / 20)) * 10, (Math.floor(cvs.height / 20)) * 10]];
         this.live = true;
         this.fitness = 0;
         this.length = 2;
         this.timeLeft = 200;
 
-        // From 6 to 12
+        // From 6 to 10
         this.wih = [];
 
-        for (var i = 0; i < 12; i++) {
+        for (var i = 0; i < 10; i++) {
             var a = [];
             for (var j = 0; j < 6; j++) {
                 a.push(randomNumber(100, -100));
@@ -27,7 +28,7 @@ class Bot {
 
         for (var i = 0; i < 4; i++) {
             var a = [];
-            for (var j = 0; j < 12; j++) {
+            for (var j = 0; j < 10; j++) {
                 a.push(randomNumber(100, -100));
             }
             this.who.push(a);
@@ -96,19 +97,10 @@ class Bot {
         }
 
         var fruitX = fruit.x - this.body[this.body.length - 1][0];
-        if (fruitX > 0) {
-            fruitX = 1;
-        } else if (fruitX < 0) {
-            fruitX = -1;
-        }
         var fruitY = fruit.y - this.body[this.body.length - 1][1];
-        if (fruitY > 0) {
-            fruitY = 1;
-        } else if (fruitY < 0) {
-            fruitY = -1;
-        }
 
         var inputs = transpose([up, down, left, right, fruitX, fruitY]);
+        console.table(inputs)
         var hiddenOutput = matrixMultiply(this.wih, inputs);
         var hiddenResult = applySigmoid(hiddenOutput);
         var outputs = matrixMultiply(this.who, hiddenResult);

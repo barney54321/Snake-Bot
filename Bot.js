@@ -114,8 +114,6 @@ class Bot {
         var outputs = matrixMultiply(this.who, hiddenResult);
         var result = applySigmoid(outputs);
 
-        console.table(inputs)
-
         if (result[0][0] > 0.5) {
             if (this.velX == -1) {
                 this.live = false;

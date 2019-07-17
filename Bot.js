@@ -12,12 +12,12 @@ class Bot {
         this.length = 2;
         this.timeLeft = 200;
 
-        // From 6 to 10
+        // From 8 to 10
         this.wih = [];
 
         for (var i = 0; i < 10; i++) {
             var a = [];
-            for (var j = 0; j < 6; j++) {
+            for (var j = 0; j < 8; j++) {
                 a.push(randomNumber(100, -100));
             }
             this.wih.push(a);
@@ -99,8 +99,7 @@ class Bot {
         var fruitX = fruit.x - this.body[this.body.length - 1][0];
         var fruitY = fruit.y - this.body[this.body.length - 1][1];
 
-        var inputs = transpose([up, down, left, right, fruitX, fruitY]);
-        console.table(inputs)
+        var inputs = transpose([up, down, left, right, fruitX, fruitY, fruitX, fruitY]);
         var hiddenOutput = matrixMultiply(this.wih, inputs);
         var hiddenResult = applySigmoid(hiddenOutput);
         var outputs = matrixMultiply(this.who, hiddenResult);
@@ -112,7 +111,6 @@ class Bot {
             } else {
                 this.velX = 1;
                 this.velY = 0;
-                this.fitness += 10;
             }
         } else if (result[1][0] > 0.5) {
             if (this.velX == 1) {
@@ -120,7 +118,6 @@ class Bot {
             } else {
                 this.velX = -1;
                 this.velY = 0;
-                this.fitness += 10;
             }
         } else if (result[2][0] > 0.5) {
             if (this.velY == -1) {
@@ -128,7 +125,6 @@ class Bot {
             } else {
                 this.velX = 0;
                 this.velY = 1;
-                this.fitness += 10;
             }
         } else if (result[3][0] > 0.5) {
             if (this.velY == 1) {
@@ -136,7 +132,6 @@ class Bot {
             } else {
                 this.velX = 0;
                 this.velY = -1;
-                this.fitness += 10;
             }            
         }
 

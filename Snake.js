@@ -71,7 +71,7 @@ function runner() {
 
     bots[num].click(fruit);
     if (bots[num].body[bots[num].body.length - 1][0] == fruit.x && bots[num].body[bots[num].body.length - 1][1] == fruit.y) {
-        bots[num].fitness += 200;
+        bots[num].fitness += 1000;
         fruit = new Fruit(ctx, cvs);
         bots[num].length += 1;
         bots[num].timeLeft += 1000;
@@ -80,7 +80,6 @@ function runner() {
     if (bots[num].live == false) {
         fruit = new Fruit(ctx, cvs);
         num += 1;
-        return;
         if (num >= bots.length) {
             evolve();
             num = 0;
